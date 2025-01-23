@@ -1,6 +1,9 @@
 ```bash
 helm repo add nvidia https://nvidia.github.io/gpu-operator
 helm repo update
+helm install gpu-operator nvidia/gpu-operator \
+  --namespace gpu-operator \
+  --create-namespace
 ```
 
 ```bash
@@ -25,10 +28,3 @@ kubectl get sa -n triton triton-service-account
 kubectl get secret regcred -n triton
 ```
 
-```bash
-helm repo add nvidia https://nvidia.github.io/gpu-operator
-helm repo update
-helm install gpu-operator nvidia/gpu-operator \
-  --namespace gpu-operator \
-  --create-namespace
-```
