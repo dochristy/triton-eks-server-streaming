@@ -24,3 +24,9 @@ docker tag triton-ws-pipeline ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/
 docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/websocket-pipeline:latest
 
 
+### Create S3 bucket if not exists
+aws s3 mb s3://dry-bean-bucket-c
+
+### Upload your models to S3
+aws s3 cp models/ s3://dry-bean-bucket-c/models/ --recursive
+
