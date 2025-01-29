@@ -51,4 +51,16 @@ vpc_cidr = "192.168.0.0/20"
 vpc_id = "vpc-00af56b44d3c27ef"
 ```
 
+## Connect to the cluster
+```bash
+aws eks update-kubeconfig --name triton-streaming-cluster --region us-east-1
+```
+
+```bash
+kubectl get nodes
+NAME                           STATUS   ROLES    AGE    VERSION
+ip-192-168-1-65.ec2.internal   Ready    <none>   125m   v1.27.16-eks-aeac579
+```
+
+
 
