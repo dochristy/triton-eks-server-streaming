@@ -30,3 +30,25 @@ aws s3 mb s3://dry-bean-bucket-c
 ### Upload your models to S3
 aws s3 cp models/ s3://dry-bean-bucket-c/models/ --recursive
 
+
+### Terraform init, plan, apply
+```bash
+cluster_endpoint = "https://15DF156C8781098F09C4B799AD43D8.gr7.us-east-1.eks.amazonaws.com"
+cluster_name = "triton-streaming-cluster"
+cluster_oidc_issuer_url = "https://oidc.eks.us-east-1.amazonaws.com/id/15DF156C8781098F09C4B799AD43D8"
+nat_public_ips = tolist([
+  "34.224.171.15",
+])
+private_subnet_ids = [
+  "subnet-0d0b7c6cd9f6f437",
+  "subnet-074348f3c450bb87",
+]
+public_subnet_ids = [
+  "subnet-0f2b7965fea6f433",
+  "subnet-0429df4f58aecd25",
+]
+vpc_cidr = "192.168.0.0/20"
+vpc_id = "vpc-00af56b44d3c27ef"
+```
+
+
