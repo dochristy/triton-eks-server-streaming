@@ -20,9 +20,10 @@ aws ecr get-login-password --region us-east-1 | docker login --username AWS --pa
 docker build -t triton-ws-pipeline .
 
 ### Tag and push
+```bash
 docker tag triton-ws-pipeline ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/websocket-pipeline:latest
 docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/websocket-pipeline:latest
-
+```
 
 ### Create S3 bucket if not exists
 aws s3 mb s3://dry-bean-bucket-c
@@ -62,5 +63,15 @@ NAME                           STATUS   ROLES    AGE    VERSION
 ip-192-168-1-65.ec2.internal   Ready    <none>   125m   v1.27.16-eks-aeac579
 ```
 
+### Make sure port 8080 which is the web-socket port ( in this implementation ) is exposed
+
+```bash
+kubectl get svc
+NAME            TYPE           CLUSTER-IP       EXTERNAL-IP                                                                     PORT(S)                                                       AGE
+kubernetes      ClusterIP      10.100.0.1       <none>                                                                          443/TCP                                                       154m
+triton-server   LoadBalancer   10.100.206.244   ab2c89d3704f3499e9350563e87f167b-00015305edd17b67.elb.us-east-1.amazonaws.com   8000:32604/TCP,8001:31757/TCP,8002:31379/TCP,8080:30896/TCP   146m
+```
+
+How to Test:
 
 
