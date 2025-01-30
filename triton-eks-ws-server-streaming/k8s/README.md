@@ -6,8 +6,6 @@ aws configure
 ### Create ECR repository for Triton server (if not exists)
 aws ecr create-repository --repository-name websocket-pipeline
 
-
-
 ### Login to ECR
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com
 
@@ -25,7 +23,6 @@ aws s3 mb s3://dry-bean-bucket-c
 
 ### Upload your models to S3
 aws s3 cp models/ s3://dry-bean-bucket-c/models/ --recursive
-
 
 ### Terraform init, plan, apply
 ```bash
@@ -77,7 +74,6 @@ triton-server-5cd9dffd89-527mr   1/1     Running   0          59m
 
 ### Inside the container
 ```bash
-
 kubectl exec -it triton-server-5cd9dffd89-527mr -- /bin/bash
 root@triton-server-5cd9dffd89-527mr:/app# ps -ef
 UID          PID    PPID  C STIME TTY          TIME CMD
@@ -95,7 +91,6 @@ tcp        0      0 0.0.0.0:8000            0.0.0.0:*               LISTEN
 tcp        0      0 0.0.0.0:8002            0.0.0.0:*               LISTEN     
 tcp6       0      0 :::8001                 :::*                    LISTEN     
 ```
-
 
 ## Client Side
 
@@ -141,6 +136,7 @@ densenet predictions:
 resnet predictions:
 2025-01-29 21:01:53,883 - INFO - - resnetv24_dense0_fwd: [[-3.003066062927246, -0.5051834583282471, -2.0540456771850586, -0.12822139263153076, 0.47703659534454346, 1.8847764730453491, 0.598005473613739, -1.3736971616744995, -0.2111804187297821, 0.0984265208...
 ```
+
 ## Image processing in parallel
 
 ```bash
@@ -279,4 +275,3 @@ videos/Loop 1 - Bloodstream.mp4,success,1,1,0,1.792485,
 videos/Loop 2 - Blue motion.mp4,failed,1,0,1,1.16032,
 videos/VID-20210905-WA0008.mp4,success,1,1,0,0.833841,
 ```
-
