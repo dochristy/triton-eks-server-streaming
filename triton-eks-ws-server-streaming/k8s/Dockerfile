@@ -1,4 +1,4 @@
-FROM ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/triton-grpc:24.11-py3
+FROM <account_id>.dkr.ecr.us-east-1.amazonaws.com/triton-grpc:24.11-py3
 
 RUN apt-get -o Acquire::AllowInsecureRepositories=true -o Acquire::AllowDowngradeToInsecureRepositories=true update && \
     DEBIAN_FRONTEND=noninteractive apt-get --allow-unauthenticated install -y --no-install-recommends \
@@ -13,7 +13,8 @@ RUN pip install --no-cache-dir -r /app/requirements.txt || (cat /root/.cache/pip
 RUN pip install awscli websockets aiohttp
 
 # Copy application code
-COPY pipeline_server.py /app/pipeline_ws_server.py
+# COPY pipeline_http_ws_server.py /app/pipeline_ws_server.py # For HTTP implementation
+COPY pipeline_grpc_ws_server.py /app/pipeline_ws_server.py   # For gRPC implementation
 
 # Set working directory
 WORKDIR /app
