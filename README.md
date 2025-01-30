@@ -29,6 +29,7 @@ Port 8080"]:::tritonColor
 ```
 
 
+
 # Triton WebSocket Pipeline Server
 
 A scalable machine learning inference pipeline using NVIDIA Triton Server with WebSocket support deployed on Amazon EKS.
@@ -177,3 +178,6 @@ Expected ports:
 - 8000: HTTP
 - 8001: gRPC
 - 8002: Metrics
+
+### For further details:
+https://github.com/dochristy/triton-eks-server-streaming/blob/main/triton-eks-ws-server-streaming/k8s/README.md#first-prepare-your-aws-environment
