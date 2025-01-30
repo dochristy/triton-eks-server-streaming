@@ -1,8 +1,3 @@
-```bash
-
-
-```
-
 ## First, Prepare Your AWS Environment:
 
 ### Configure AWS CLI
@@ -52,7 +47,7 @@ vpc_cidr = "192.168.0.0/20"
 vpc_id = "vpc-00af56b44d3c27ef"
 ```
 
-## Connect to the cluster
+## Connect to the EKS cluster
 ```bash
 aws eks update-kubeconfig --name triton-streaming-cluster --region us-east-1
 ```
@@ -73,6 +68,37 @@ triton-server   LoadBalancer   10.100.206.244   ab2c89d3704f3499e9350563e87f167b
 ```
 
 How to Test:
+## Server Side
+```bash
+kubectl get pods
+NAME                             READY   STATUS    RESTARTS   AGE
+triton-server-5cd9dffd89-527mr   1/1     Running   0          59m
+```
+
+### Inside the container
+```bash
+
+kubectl exec -it triton-server-5cd9dffd89-527mr -- /bin/bash
+root@triton-server-5cd9dffd89-527mr:/app# ps -ef
+UID          PID    PPID  C STIME TTY          TIME CMD
+root           1       0  0 01:07 ?        00:00:00 /bin/bash /app/start.sh tritonserver --model-repository=s3://dry-bean-bucket-c/models --http-port=8000 --grpc-port=8001 --metrics-port=8002
+root          20       1  0 01:07 ?        00:00:12 tritonserver --model-repository=s3://dry-bean-bucket-c/models --http-port=8000 --grpc-port=8001 --metrics-port=8002 --allow-http=1
+root          80       1  0 01:07 ?        00:00:06 python3 /app/pipeline_ws_server.py
+root         140       0  0 02:07 pts/0    00:00:00 /bin/bash
+root         178     140  0 02:07 pts/0    00:00:00 ps -ef
+
+root@triton-server-5cd9dffd89-527mr:/app# netstat -tuln
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 0.0.0.0:8080            0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:8000            0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:8002            0.0.0.0:*               LISTEN     
+tcp6       0      0 :::8001                 :::*                    LISTEN     
+```
+
+
+## Client Side
+
 ```bash
 python3 simple_test.py ( this file is in python/client directory )
 
@@ -245,7 +271,9 @@ Total time: 2.68 seconds
 Average time per video: 0.89 seconds
 
 Batch summary saved to: video_inference_results/batch_summary_20250129_210336.csv
+
 cat video_inference_results/batch_summary_20250129_210336.csv
+
 video_key,status,frames_processed,successful_frames,failed_frames,processing_time,error_message
 videos/Loop 1 - Bloodstream.mp4,success,1,1,0,1.792485,
 videos/Loop 2 - Blue motion.mp4,failed,1,0,1,1.16032,
